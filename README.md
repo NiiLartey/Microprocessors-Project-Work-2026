@@ -1,6 +1,6 @@
 # Project-Based Lab Work Repository
 
-This repository contains project implementations for the lab sessions. Each project demonstrates the application of microcontrollers, microprocessors, electronics, and sensors using any online simulation tools.
+This repository contains project implementations for the lab sessions. Each project demonstrates the application of microcontrollers, microprocessors, electronics, and sensors using any online simulation tool.
 
 ## Contents
 - **Project Files** – Circuit schematics, simulation setups, and source code.  
