@@ -9,7 +9,7 @@ This repository contains project implementations for the lab sessions. Each proj
 - **Links for the upload of Video presentations:**
   **BME 3** - https://mega.nz/filerequest/dKYn5GNXG2g
   **COE 3** - https://mega.nz/filerequest/FkQ_iqQcudk
-  **ED 3** - https://mega.nz/filerequest/IPvGQB3tcJc
+  **ED3** - https://mega.nz/filerequest/IPvGQB3tcJc
 
 ## Guidelines
 - Ensure that all submissions are original and adhere to the project requirements.  
