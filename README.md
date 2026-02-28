@@ -6,7 +6,7 @@ This repository contains project implementations for the lab sessions. Each proj
 - **Project Files** – Circuit schematics, simulation setups, and source code.  
 - **Documentation** – Detailed explanations of methodologies, problem statements, and findings.  
 - **Video Presentations** – Demonstrations of project functionality.
-- **Links for the upload of Video presentations:**
+- **Links for upload of video presentations:**
   **BME 3** - https://mega.nz/filerequest/dKYn5GNXG2g
   **COE 3** - https://mega.nz/filerequest/FkQ_iqQcudk
   **ED3** - https://mega.nz/filerequest/IPvGQB3tcJc
