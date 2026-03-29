@@ -1,0 +1,1 @@
+Link for simulation in Tinkercad: https://www.tinkercad.com/things/0ts0n74rSzX-smart-dustbin/editel?returnTo=https%3A%2F%2Fwww.tinkercad.com%2Fdashboard&sharecode=7whnJbOpceGWrFvDl55e1qAmaj9rdQLa-RBZrvFWqBg
