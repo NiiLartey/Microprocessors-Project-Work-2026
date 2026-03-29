@@ -1,0 +1,12 @@
+﻿Name,Quantity,Component
+UArduino Board,1, Arduino Uno R3
+RSunlight Detector,1, Photoresistor
+RR2,1,1 kΩ Resistor
+SENSoil moisture Sensor,1, Soil Moisture Sensor
+TTransistor,1, NPN Transistor (BJT)
+R3,1,10 kΩ Resistor
+MWater pump,1, DC Motor
+D1,1, Diode
+DLED,1,Red LED
+R4,1,220 Ω Resistor
+UDisplay Board ,1,"PCF8574-based, 39 (0x27) LCD 16 x 2 (I2C)"
