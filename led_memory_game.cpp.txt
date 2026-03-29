@@ -1,0 +1,152 @@
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+
+// I2C LCD address 0x27, 16x2
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+
+int ledPins[4] = {2, 3, 4, 5};
+int buttonPins[4] = {6, 7, 8, 9};
+int buzzer = 10;
+
+int gameSequence[100];
+int gameLevel = 0;
+int stepDelay = 800;
+long currentScore = 0;
+
+// An array to hold the top 4 scores
+long highScores[4] = {0, 0, 0, 0};
+
+void setup() {
+  lcd.init();          
+  lcd.backlight();     
+
+  for (int i = 0; i < 4; i++) {
+    pinMode(ledPins[i], OUTPUT);
+    pinMode(buttonPins[i], INPUT_PULLUP);
+  }
+
+  pinMode(buzzer, OUTPUT);
+  randomSeed(analogRead(0));
+
+  showLeaderboard();
+}
+
+void loop() {
+  // Difficulty Scaling With respect to delay time
+  if (gameLevel < 2) stepDelay = 800;
+  else if (gameLevel < 4) stepDelay = 500;
+  else if (gameLevel < 5) stepDelay = 350;
+  else stepDelay = 200;
+
+  // Add step
+  gameSequence[gameLevel] = random(0, 4);
+  gameLevel++;
+
+  lcd.clear();
+  lcd.print("Level: ");
+  lcd.print(gameLevel);
+
+  // Play sequence
+  for (int i = 0; i < gameLevel; i++) {
+    playStep(gameSequence[i], stepDelay);
+    delay(stepDelay / 2);
+  }
+
+  // Player input
+  for (int i = 0; i < gameLevel; i++) {
+    int playerChoice = waitForButton();
+    if (playerChoice != gameSequence[i]) {
+      handleGameOver();
+      return;
+    }
+  }
+
+  // Scoring Mechanism
+  if (gameLevel <= 2) {
+    currentScore += 30;
+  } else {
+    currentScore += (30 + (gameLevel - 2) * 2);
+  }
+
+  delay(1000);
+}
+
+// Main game
+void playStep(int ledIndex, int speed) {
+  digitalWrite(ledPins[ledIndex], HIGH);
+  tone(buzzer, 300 + (ledIndex * 100));
+  delay(speed);
+  digitalWrite(ledPins[ledIndex], LOW);
+  noTone(buzzer);
+}
+
+int waitForButton() {
+  while (true) {
+    for (int i = 0; i < 4; i++) {
+      if (digitalRead(buttonPins[i]) == LOW) {
+        playStep(i, 250);
+        while (digitalRead(buttonPins[i]) == LOW);
+        delay(50);
+        return i;
+      }
+    }
+  }
+}
+
+void handleGameOver() {
+  lcd.clear();
+  lcd.print(" GAME OVER! ");
+  lcd.setCursor(0, 1);
+  lcd.print("Score: ");
+  lcd.print(currentScore);
+  tone(buzzer, 150, 1000);
+  delay(2000);
+
+  // Scoring Comparison
+  int newPos = -1;
+  for (int i = 0; i < 4; i++) {
+    if (currentScore > highScores[i]) {
+      newPos = i;
+      break;
+    }
+  }
+
+  if (newPos != -1) {
+    lcd.clear();
+    lcd.print(" NEW RECORD! ");
+    lcd.setCursor(0, 1);
+    lcd.print("Rank: #");
+    lcd.print(newPos + 1);
+    delay(2000);
+
+    // Insert new score
+    for (int i = 3; i > newPos; i--) {
+      highScores[i] = highScores[i - 1];
+    }
+
+    highScores[newPos] = currentScore;
+  }
+
+  gameLevel = 0;
+  currentScore = 0;
+
+  showLeaderboard();
+}
+
+void showLeaderboard() {
+  lcd.clear();
+  lcd.print("TOP SCORES:");
+  delay(1000);
+
+  for (int i = 0; i < 4; i++) {
+    lcd.clear();
+    lcd.print("#");
+    lcd.print(i + 1);
+    lcd.print(": ");
+    lcd.print(highScores[i]);
+
+    lcd.setCursor(0, 1);
+    lcd.print("Press to play");
+    delay(1500);
+  }
+}
