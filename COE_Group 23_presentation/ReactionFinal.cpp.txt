@@ -1,0 +1,52 @@
+#include <LiquidCrystal.h>
+
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+const int LED    = 9;
+const int BUTTON = 7;
+const int BUZZER = 8;
+
+void setup() {
+  pinMode(LED, OUTPUT);
+  pinMode(BUTTON, INPUT_PULLUP);
+  pinMode(BUZZER, OUTPUT);
+  randomSeed(analogRead(A0));
+  lcd.begin(16, 2);
+}
+
+void loop() {
+  
+  lcd.clear();
+  lcd.print("Press to start!");
+  while (digitalRead(BUTTON) == HIGH);  
+  delay(200);                            
+  
+  lcd.clear();
+  lcd.print("Get ready...");
+  delay(random(1000, 4000));
+  
+  // Sound buzzer and light LED simultaneously
+  digitalWrite(LED, HIGH);
+  tone(BUZZER, 1000, 500);  // 1000Hz tone for 500ms
+  lcd.clear();
+  lcd.print("PRESS NOW!");
+  unsigned long startTime = millis();
+  
+  while (digitalRead(BUTTON) == HIGH);  
+  
+  unsigned long reactionTime = millis() - startTime;
+  digitalWrite(LED, LOW);
+  
+  // Time on first row, comment on second row
+  lcd.clear();
+  lcd.print("Time: ");
+  lcd.print(reactionTime);
+  lcd.print(" ms");
+  lcd.setCursor(0, 1);
+  if (reactionTime < 250) {
+    lcd.print("That's fast!");
+  } else {
+    lcd.print("Too slow!");
+  }
+
+  delay(3000);  
+}
